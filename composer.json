@@ -1,0 +1,27 @@
+{
+  "name": "bwach/tick-tack-toe",
+  "require": {
+    "symfony/http-foundation": "^3.2"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^3.2"
+  },
+  "authors": [
+    {
+      "name": "Bartłomiej Wach",
+      "email": "bartlomiej.wach@yahoo.pl"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-0": {
+      "TickTackToe": "src/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin",
+    "platform": {
+      "php": "5.6"
+    }
+  }
+}

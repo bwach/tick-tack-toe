@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TickTackToe AI</title>
+    <script src="jquery-3.1.1.min.js"></script>
+    <style>
+
+        td {
+            width: 50px;
+            height: 50px;
+        }
+
+        .container {
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var aiPath = "ai.php";
+    var currentTeam = "X";
+    var boardState = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+    ];
+
+    function drawBoard() {
+        $('.gameBoard tr').remove();
+
+        boardState.forEach(function (row) {
+            $('.gameBoard').append("<tr><td>" + row[0] + "</td><td>" + row[1] + "</td><td>" + row[2] + "</td></tr>")
+        });
+
+
+        $('td').click(function () {
+            if(this.content != "undefined")
+            {
+                var column  = this.cellIndex;
+                var row = this.parentNode.rowIndex;
+
+                updateBoardState([row, column, 'X']);
+                currentTeam == 'X' ? currentTeam = 'O' : currentTeam = 'X';
+                drawBoard();
+                aiMove();
+                currentTeam == 'X' ? currentTeam = 'O' : currentTeam = 'X';
+            }
+        });
+    }
+
+    function updateBoardState(data) {
+        boardState[data[0]][data[1]] = data[2];
+    }
+
+    function aiMove()
+    {
+        var data = JSON.stringify({
+            boardState: boardState,
+            team: currentTeam
+        });
+
+        $.post(aiPath,
+                data,
+                function (data) {
+                    updateBoardState(data);
+                    drawBoard();
+                },
+                "json");
+    }
+
+    $(function () {
+        drawBoard();
+
+        if(Math.random() > 0.5)
+        {
+            aiMove();
+        }
+    });
+
+</script>
+<div class="container">
+    <table border="1" class="gameBoard">
+    </table>
+</div>
+</body>
+</html>
